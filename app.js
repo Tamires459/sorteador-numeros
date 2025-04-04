@@ -1,35 +1,37 @@
-const campoQuantidade = document.getElementById("quantidade");
-const campoDe = document.getElementById("de");
-const campoAte = document.getElementById("ate");
-let botaoReiniciar = document.getElementById("btn-reiniciar");
-let resultado = document.getElementById("resultado");
+const qtdNumeros = document.getElementById("quantidade");
+const doNumero = document.getElementById("de");
+const ateNumero = document.getElementById("ate");
+const exibirResultado = document.getElementById("resultado");
+const botaoReiniciar = document.getElementById("btn-reiniciar");
 
 function sortear() {
-  let quantidade = parseInt(campoQuantidade.value);
-  let de = parseInt(campoDe.value);
-  let ate = parseInt(campoAte.value);
+  const quantidade = parseInt(qtdNumeros.value);
+  const de = parseInt(doNumero.value);
+  const ate = Number(ateNumero.value);
 
-  let sorteados = [];
+  if (!quantidade || !de || !ate) {
+    alert("Preencha os campos!");
+    return;
+  }
+
+  const numerosSorteados = [];
   let numero;
 
   for (let i = 0; i < quantidade; i++) {
     numero = obterNumeroAleatorio(de, ate);
 
-    while (sorteados.includes(numero)) {
+    while (numerosSorteados.includes(numero)) {
       numero = obterNumeroAleatorio(de, ate);
     }
-    sorteados.push(numero);
+    numerosSorteados.push(numero);
   }
 
-  resultado.innerHTML = `<label class="texto__paragrafo"
-              >Números sorteados: ${sorteados}</label
-            >`;
-
+  exibirResultado.innerHTML = `<label class="texto__paragrafo">Números sorteados: ${numerosSorteados}</label>`;
   alterarStatusBotao();
 }
 
-function obterNumeroAleatorio(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+function obterNumeroAleatorio(minimo, maximo) {
+  return Math.floor(Math.random() * (maximo - minimo)) + minimo;
 }
 
 function alterarStatusBotao() {
@@ -42,10 +44,8 @@ function alterarStatusBotao() {
 function reiniciar() {
   botaoReiniciar.classList.remove("container__botao");
   botaoReiniciar.classList.add("container__botao-desabilitado");
-  campoQuantidade.value = "";
-  campoDe.value = "";
-  campoAte.value = "";
-  resultado.innerHTML = `<label class="texto__paragrafo"
-              >Números sorteados: nenhum até agora</label
-            >`;
+  qtdNumeros.value = "";
+  doNumero.value = "";
+  ateNumero.value = "";
+  exibirResultado.innerHTML = `<label class="texto__paragrafo">Números sorteados: nenhum até agora</label>`;
 }
